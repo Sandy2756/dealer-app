@@ -69,12 +69,13 @@ if page == "Dealer Order":
                 with col2:
                 components.html(f"""
                 <button onclick="
-                navigator.clipboard.writeText(`{message}`);
+                
+                navigator.clipboard.writeText({rept(message});
                 " style="
-                margin-top: 28px;
-                padding: 8px 12px;
-                font-size: 14px;
-                cursor: pointer;
+                    margin-top: 28px;
+                    padding: 8px 12px;
+                    font-size: 14px;
+                    cursor: pointer;
                 ">
                 📋 Copy
                 </button>
