@@ -113,8 +113,11 @@ if page == "Stock Check":
             col2.write("")  # keeps spacing consistent
 
 # Check Price
+# Check Price
 if page == "Pricing Check":
     st.subheader("Check Price")
+
+    price_items = []
 
     for i in range(10):
         col1, col2 = st.columns([2, 3], vertical_alignment="center")
@@ -135,9 +138,38 @@ if page == "Pricing Check":
                 price = row["Price"]
 
                 col2.write(f"{name} | ₹{price}/sqft")
+
+                # 👇 THIS IS IMPORTANT (stores for copy)
+                price_items.append(f"{code.upper()} - {name} ₹{price}/sqft")
+
             else:
                 col2.write("Not found")
         else:
             col2.write("")
 
-        
+    # =========================
+    # COPY SECTION (NEW)
+    # =========================
+
+    price_message = ""
+
+    if price_items:
+        price_message = "\n".join(price_items)
+
+    col1, col2 = st.columns([5,1])
+
+    with col1:
+        st.text_area("Copy Price List", price_message, height=150)
+
+    with col2:
+        st.components.v1.html(f"""
+        <button onclick="navigator.clipboard.writeText({repr(price_message)})"
+        style="
+            margin-top: 28px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        ">
+        📋 Copy
+        </button>
+        """, height=60)
