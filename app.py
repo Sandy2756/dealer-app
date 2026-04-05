@@ -64,11 +64,11 @@ if page == "Dealer Order":
                 col1, col2 = st.columns([5,1])
 
                 with col1:
-                st.text_area("Copy Message", message, height=200, key="msg_box")
+                    st.text_area("Copy Message", message, height=200, key="msg_box")
 
                 with col2:
-                components.html(f"""
-                <button onclick="
+                    components.html(f"""
+                    <button onclick="
                 
                 navigator.clipboard.writeText({rept(message});
                 " style="
