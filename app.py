@@ -34,7 +34,7 @@ if page == "Dealer Order":
     if mobile:
         try:
             mobile = int(mobile)
-            result = df[df["Mob No"] == mobile]
+            result = df[df["Mob_No"] == mobile]
 
             if not result.empty:
                 row = result.iloc[0]
@@ -42,8 +42,8 @@ if page == "Dealer Order":
                 dealer = row["Dealer"]
                 area = row["Area"]
                 discount = row["Discount"]
-                transport_r = row["Transport Regular"]
-                transport_o = row["Transportation Others"]
+                transport_r = row["Transport_Regular"]
+                transport_o = row["Transportation_Others"]
 
             # Build message
                 message = ""
