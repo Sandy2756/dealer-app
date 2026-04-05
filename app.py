@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
+import io
 
 # Load Dealer Data
-df = pd.read_csv("data.csv")
+data = st.secrets["data"]
+df = pd.read_csv(io.StringIO(data))
 
 # Load Stock Data
-stock_df = pd.read_csv("stock.csv")
+stock_data = st.secrets["stock"]
+stock_df = pd.read_csv(io.StringIO(stock_data))
 
 # Side Bar for Sections Radio Butons
 page = st.sidebar.radio(
