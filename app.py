@@ -30,8 +30,8 @@ if page == "Dealer Order":
         col1, col2 = st.columns(2)
         code = col1.text_input(f"Code {i+1}", key=f"code{i}")
         qty = col2.text_input(f"Qty {i+1}", key=f"qty{i}")
-        if code and qty:
-            items.append(f"{code} - {qty}")
+        if code.strip() and qty.strip():
+            items.append(f"{code.upper()} - {qty}")
     
 # Lookup
     if mobile:
