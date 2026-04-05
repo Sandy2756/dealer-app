@@ -91,6 +91,8 @@ if page == "Dealer Order":
 if page == "Stock Check":
     st.subheader("Check Availability")
 
+    stock_items = []
+
     for i in range(10):
         col1, col2 = st.columns([2, 3], vertical_alignment="center")
 
@@ -106,13 +108,44 @@ if page == "Stock Check":
 
             if not result.empty:
                 stock = result.iloc[0]["Stock"]
+
                 col2.write(f"{stock} sheets available")
+
+                # 👇 store for copy
+                stock_items.append(f"{code.upper()} - {stock} sheets")
+
             else:
                 col2.write("Not found")
         else:
-            col2.write("")  # keeps spacing consistent
+            col2.write("")
 
-# Check Price
+    # =========================
+    # COPY SECTION (NEW)
+    # =========================
+
+    stock_message = ""
+
+    if stock_items:
+        stock_message = "\n".join(stock_items)
+
+    col1, col2 = st.columns([5,1])
+
+    with col1:
+        st.text_area("Copy Stock List", stock_message, height=150)
+
+    with col2:
+        st.components.v1.html(f"""
+        <button onclick="navigator.clipboard.writeText({repr(stock_message)})"
+        style="
+            margin-top: 28px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        ">
+        📋 Copy
+        </button>
+        """, height=60)
+
 # Check Price
 if page == "Pricing Check":
     st.subheader("Check Price")
