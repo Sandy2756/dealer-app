@@ -70,7 +70,7 @@ if page == "Dealer Order":
                     components.html(f"""
                     <button onclick="
                 
-                navigator.clipboard.writeText({rept(message)});
+                navigator.clipboard.writeText({repr(message)});
                 " style="
                     margin-top: 28px;
                     padding: 8px 12px;
