@@ -1,0 +1,122 @@
+import streamlit as st
+import pandas as pd
+
+# Load Dealer Data
+df = pd.read_csv("data.csv")
+
+# Load Stock Data
+stock_df = pd.read_csv("stock.csv")
+
+# Side Bar for Sections Radio Butons
+page = st.sidebar.radio(
+    "Select Section",
+    ["Dealer Order", "Stock Check", "Pricing Check"]
+)
+
+if page == "Dealer Order":
+    st.title("Dealer Lookup + Order Generator")
+    
+# Mobile input
+    mobile = st.text_input("Enter Mobile Number")
+    
+# Item inputs
+    st.subheader("Add Items")
+    
+    items = []
+    for i in range(8):
+        col1, col2 = st.columns(2)
+        code = col1.text_input(f"Code {i+1}", key=f"code{i}")
+        qty = col2.text_input(f"Qty {i+1}", key=f"qty{i}")
+        if code and qty:
+            items.append(f"{code} - {qty}")
+    
+# Lookup
+    if mobile:
+        try:
+            mobile = int(mobile)
+            result = df[df["Mob No"] == mobile]
+
+            if not result.empty:
+                row = result.iloc[0]
+
+                dealer = row["Dealer"]
+                area = row["Area"]
+                discount = row["Discount"]
+                transport_r = row["Transport Regular"]
+                transport_o = row["Transportation Others"]
+
+            # Build message
+                message = ""
+
+                if items:
+                    message += "\n".join(items) + "\n\n"
+
+                message += f"""Dealer: {dealer}
+    Area: {area}
+    Mob: {mobile}
+    Discount: {discount*100:.2f}%
+    Transport (Regular): ₹{transport_r}
+    Transport (Others): ₹{transport_o}"""
+
+                st.text_area("Copy Message", message, height=200)
+
+            else:
+                st.error("Mobile number not found")
+
+        except:
+            st.error("Invalid mobile number")
+
+# Check Availability
+if page == "Stock Check":
+    st.subheader("Check Availability")
+
+    for i in range(10):
+        col1, col2 = st.columns([2, 3], vertical_alignment="center")
+
+        code = col1.text_input(
+            label=f"Code {i+1}",
+            key=f"avail{i}",
+            label_visibility="collapsed",
+            placeholder=f"Code {i+1}"
+        )
+
+        if code:
+            result = stock_df[stock_df["Code"] == code.upper()]
+
+            if not result.empty:
+                stock = result.iloc[0]["Stock"]
+                col2.write(f"{stock} sheets available")
+            else:
+                col2.write("Not found")
+        else:
+            col2.write("")  # keeps spacing consistent
+
+# Check Price
+if page == "Pricing Check":
+    st.subheader("Check Price")
+
+    for i in range(10):
+        col1, col2 = st.columns([2, 3], vertical_alignment="center")
+
+        code = col1.text_input(
+            label=f"Code {i+1}",
+            key=f"price{i}",
+            label_visibility="collapsed",
+            placeholder=f"Code {i+1}"
+        )
+
+        if code:
+            result = stock_df[stock_df["Code"] == code.upper()]
+
+            if not result.empty:
+                row = result.iloc[0]
+                name = row["Name"]
+                price = row["Price"]
+
+                col2.write(f"{name} | ₹{price}/sqft")
+            else:
+                col2.write("Not found")
+        else:
+            col2.write("")
+
+        
