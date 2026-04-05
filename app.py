@@ -7,8 +7,7 @@ data = st.secrets["data"]
 df = pd.read_csv(io.StringIO(data))
 
 # Load Stock Data
-stock_data = st.secrets["stock"]
-stock_df = pd.read_csv(io.StringIO(stock_data))
+stock_df = pd.read_csv("https://docs.google.com/spreadsheets/d/1ime3BfD4UIqgJL0X5IcOB8cXI2Avwnia_mztHUzLRX0/export?format=csv")
 
 # Side Bar for Sections Radio Butons
 page = st.sidebar.radio(
