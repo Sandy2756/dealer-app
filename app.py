@@ -63,22 +63,22 @@ if page == "Dealer Order":
 
                 col1, col2 = st.columns([5,1])
 
-with col1:
-    st.text_area("Copy Message", message, height=200, key="msg_box")
+                with col1:
+                st.text_area("Copy Message", message, height=200, key="msg_box")
 
-with col2:
-    components.html(f"""
-    <button onclick="
-    navigator.clipboard.writeText(`{message}`);
-    " style="
-        margin-top: 28px;
-        padding: 8px 12px;
-        font-size: 14px;
-        cursor: pointer;
-    ">
-    📋 Copy
-    </button>
-    """, height=60)
+                with col2:
+                components.html(f"""
+                <button onclick="
+                navigator.clipboard.writeText(`{message}`);
+                " style="
+                margin-top: 28px;
+                padding: 8px 12px;
+                font-size: 14px;
+                cursor: pointer;
+                ">
+                📋 Copy
+                </button>
+                """, height=60)
 
             else:
                 st.error("Mobile number not found")
