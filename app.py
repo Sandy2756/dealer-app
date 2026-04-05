@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import io
+import streamlit.components.v1 as components
 
 # Load Dealer Data
 data = st.secrets["data"]
@@ -60,7 +61,24 @@ if page == "Dealer Order":
     Transport (Regular): ₹{transport_r}
     Transport (Others): ₹{transport_o}"""
 
-                st.text_area("Copy Message", message, height=200)
+                col1, col2 = st.columns([5,1])
+
+with col1:
+    st.text_area("Copy Message", message, height=200, key="msg_box")
+
+with col2:
+    components.html(f"""
+    <button onclick="
+    navigator.clipboard.writeText(`{message}`);
+    " style="
+        margin-top: 28px;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+    ">
+    📋 Copy
+    </button>
+    """, height=60)
 
             else:
                 st.error("Mobile number not found")
