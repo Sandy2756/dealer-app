@@ -2,7 +2,12 @@ import streamlit as st
 import pandas as pd
 import io
 import streamlit.components.v1 as components
+if "price_codes" not in st.session_state:
+    st.session_state.price_codes = [""] * 10
 
+if "stock_codes" not in st.session_state:
+    st.session_state.stock_codes = [""] * 10
+    
 # Load Dealer Data
 data = st.secrets["data"]
 df = pd.read_csv(io.StringIO(data))
@@ -31,7 +36,7 @@ if page == "Dealer Order":
         code = col1.text_input(f"Code {i+1}", key=f"code{i}")
         qty = col2.text_input(f"Qty {i+1}", key=f"qty{i}")
         if code.strip() and qty.strip():
-            items.append(f"{code.upper()} - {qty}")
+            items.append(f"{code.strip().upper()} - {qty.strip()}")
     
 # Lookup
     if mobile:
@@ -44,7 +49,7 @@ if page == "Dealer Order":
 
                 dealer = row["Dealer"]
                 area = row["Area"]
-                discount = row["Discount"]
+                discount = row["Discount"] if pd.notna(row["Discount"]) else 0
                 transport_r = row["Transport_Regular"]
                 transport_o = row["Transportation_Others"]
 
@@ -98,13 +103,16 @@ if page == "Stock Check":
 
         code = col1.text_input(
             label=f"Code {i+1}",
+            value=st.session_state.stock_codes[i],
             key=f"avail{i}",
             label_visibility="collapsed",
             placeholder=f"Code {i+1}"
         )
-
+        code = code.strip().upper()
+        st.session_state.stock_codes[i] = code
+        
         if code:
-            result = stock_df[stock_df["Code"] == code.upper()]
+            result = stock_df[stock_df["Code"] == code]
 
             if not result.empty:
                 stock = result.iloc[0]["Stock"]
@@ -112,7 +120,7 @@ if page == "Stock Check":
                 col2.write(f"{stock} sheets available")
 
                 # 👇 store for copy
-                stock_items.append(f"{code.upper()} - {stock} sheets")
+                stock_items.append(f"{code} - {stock} sheets")
 
             else:
                 col2.write("Not found")
@@ -157,13 +165,16 @@ if page == "Pricing Check":
 
         code = col1.text_input(
             label=f"Code {i+1}",
+            value=st.session_state.price_codes[i],
             key=f"price{i}",
             label_visibility="collapsed",
             placeholder=f"Code {i+1}"
         )
-
+        code = code.strip().upper()
+        st.session_state.price_codes[i] = code
+        
         if code:
-            result = stock_df[stock_df["Code"] == code.upper()]
+            result = stock_df[stock_df["Code"] == code]
 
             if not result.empty:
                 row = result.iloc[0]
@@ -173,7 +184,7 @@ if page == "Pricing Check":
                 col2.write(f"{name} | ₹{price}/sqft")
 
                 # 👇 THIS IS IMPORTANT (stores for copy)
-                price_items.append(f"{code.upper()} - {name} ₹{price}/sqft")
+                price_items.append(f"{code} - {name} ₹{price}/sqft")
 
             else:
                 col2.write("Not found")
