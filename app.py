@@ -3,46 +3,6 @@ import pandas as pd
 import io
 import streamlit.components.v1 as components
 
-# CSS 1 (spacing)
-st.markdown("""
-<style>
-.block-container {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# CSS 2 (input size)
-st.markdown("""
-<style>
-
-/* Main input container */
-div[data-baseweb="input"] {
-    min-height: 34px !important;
-    height: 34px !important;
-}
-
-/* Inner wrapper */
-div[data-baseweb="input"] > div {
-    height: 34px !important;
-}
-
-/* Actual input field */
-div[data-baseweb="input"] input {
-    height: 30px !important;
-    font-size: 13px !important;
-    padding: 2px 6px !important;
-}
-
-/* Reduce vertical gap */
-div.row-widget.stTextInput {
-    margin-bottom: 4px !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
 if "price_codes" not in st.session_state:
     st.session_state.price_codes = [""] * 10
 
