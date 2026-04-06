@@ -2,6 +2,17 @@ import streamlit as st
 import pandas as pd
 import io
 import streamlit.components.v1 as components
+
+#Markdown for boxes lenght - basically shrinking
+st.markdown("""
+<style>
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
 if "price_codes" not in st.session_state:
     st.session_state.price_codes = [""] * 10
 
