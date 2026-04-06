@@ -3,12 +3,25 @@ import pandas as pd
 import io
 import streamlit.components.v1 as components
 
-#Markdown for boxes lenght - basically shrinking
+# CSS 1 (spacing)
 st.markdown("""
 <style>
 .block-container {
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# CSS 2 (input size)
+st.markdown("""
+<style>
+div[data-baseweb="input"] > div {
+    height: 34px;
+}
+input {
+    font-size: 13px !important;
+    padding: 4px !important;
 }
 </style>
 """, unsafe_allow_html=True)
