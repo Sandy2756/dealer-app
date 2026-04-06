@@ -16,13 +16,30 @@ st.markdown("""
 # CSS 2 (input size)
 st.markdown("""
 <style>
+
+/* Main input container */
+div[data-baseweb="input"] {
+    min-height: 34px !important;
+    height: 34px !important;
+}
+
+/* Inner wrapper */
 div[data-baseweb="input"] > div {
-    height: 34px;
+    height: 34px !important;
 }
-input {
+
+/* Actual input field */
+div[data-baseweb="input"] input {
+    height: 30px !important;
     font-size: 13px !important;
-    padding: 4px !important;
+    padding: 2px 6px !important;
 }
+
+/* Reduce vertical gap */
+div.row-widget.stTextInput {
+    margin-bottom: 4px !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
